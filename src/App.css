@@ -1,42 +1,80 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Root styles */
+:root {
+  --background: #0a0a0a; /* deep black */
+  --foreground: #e6f9e6; /* soft pale green for text */
+  --primary: #00ff88; /* neon cold green */
+  --primary-hover: #00cc6a; /* darker hover shade */
+  --muted: #2a2a2a; /* muted grey background for cards */
+  --border: #1f1f1f; /* subtle border */
+  --destructive: #ff4d4d; /* red for errors/expired items */
+  --warning: #ffcc00; /* amber for warnings */
+  --radius: 0.75rem; /* rounded corners */
+  font-family: 'Inter', 'Roboto', sans-serif;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Reset body */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', 'Roboto', sans-serif;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Links */
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+a:hover {
+  color: var(--primary-hover);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Buttons (fallback if not using shadcn/ui styles) */
+button {
+  background-color: var(--primary);
+  color: black;
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition: var(--background) 0.2s ease-in-out;
+}
+button:hover {
+  background-color: var(--primary-hover);
 }
 
+/* Card style (if needed outside shadcn/ui) */
 .card {
-  padding: 2em;
+  background-color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
 }
 
-.read-the-docs {
-  color: #888;
+/* Inputs */
+input, textarea {
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  color: var(--foreground);
+  width: 100%;
+}
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 8px var(--primary);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--foreground);
 }

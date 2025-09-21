@@ -6,98 +6,106 @@ import heroImage from "@/assets/hero-food.jpg";
 const HomePage = ({ setActiveTab }: { setActiveTab: (tab: string) => void }) => {
   const features = [
     {
-      id: 'scan',
+      id: "scan",
       icon: Camera,
-      title: 'Food Freshness Scanner',
-      description: 'Use AI to detect if your food is fresh, semi-fresh, or spoiled',
-      color: 'fresh'
+      title: "Food Freshness Scanner",
+      description: "Detect if your food is fresh, semi-fresh, or spoiled",
+      color: "emerald",
     },
     {
-      id: 'inventory',
+      id: "inventory",
       icon: Package,
-      title: 'Smart Inventory Tracking',
-      description: 'Track your food items, expiry dates, and get notifications',
-      color: 'default'
+      title: "Smart Inventory Tracking",
+      description: "Track expiry dates and get notifications",
+      color: "emerald",
     },
     {
-      id: 'nutrition',
+      id: "nutrition",
       icon: BarChart3,
-      title: 'Nutrition Analysis',
-      description: 'Analyze dishes for calories, macros, and micronutrients',
-      color: 'nutrition'
+      title: "Nutrition Analysis",
+      description: "Analyze dishes for calories, macros & micros",
+      color: "emerald",
     },
     {
-      id: 'recipes',
+      id: "recipes",
       icon: ChefHat,
-      title: 'AI Recipe Generator',
-      description: 'Generate personalized recipes based on your inventory',
-      color: 'cooking'
-    }
+      title: "AI Recipe Generator",
+      description: "Personalized recipes from your inventory",
+      color: "emerald",
+    },
   ];
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-16 bg-black text-gray-200 font-sans">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-hero rounded-2xl">
-        <div className="container mx-auto px-6 py-16 md:py-24">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h1 className="text-4xl md:text-6xl font-bold text-foreground">
-                Smart Food
-                <span className="block text-primary">Assistant</span>
-              </h1>
-              <p className="text-xl text-muted-foreground leading-relaxed">
-                Reduce food waste, track freshness, analyze nutrition, and generate recipes with AI-powered food management
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button variant="fresh" size="lg" onClick={() => setActiveTab('scan')}>
-                  <Camera className="w-5 h-5 mr-2" />
-                  Start Scanning
-                </Button>
-                <Button variant="outline" size="lg" onClick={() => setActiveTab('inventory')}>
-                  View Inventory
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
-              </div>
+      <section className="relative overflow-hidden rounded-2xl">
+        <div className="container mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-8">
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight">
+              Smart Food{" "}
+              <span className="block text-emerald-400">Assistant</span>
+            </h1>
+            <p className="text-lg md:text-xl text-gray-400 leading-relaxed">
+              Reduce waste, track freshness, analyze nutrition & generate
+              recipes with AI-powered food management.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button
+                className="bg-emerald-500 hover:bg-emerald-400 text-black font-semibold px-6 py-3 rounded-lg"
+                onClick={() => setActiveTab("scan")}
+              >
+                <Camera className="w-5 h-5 mr-2" />
+                Start Scanning
+              </Button>
+              <Button
+                variant="outline"
+                className="border border-emerald-400 text-emerald-400 hover:bg-emerald-500 hover:text-black font-semibold px-6 py-3 rounded-lg"
+                onClick={() => setActiveTab("inventory")}
+              >
+                View Inventory
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
             </div>
-            <div className="relative">
-              <img
-                src={heroImage}
-                alt="Fresh fruits and vegetables"
-                className="rounded-xl shadow-elegant w-full h-auto"
-              />
-            </div>
+          </div>
+          <div>
+            <img
+              src={heroImage}
+              alt="Fresh fruits and vegetables"
+              className="rounded-xl shadow-lg w-full h-auto"
+              loading="lazy"
+            />
           </div>
         </div>
       </section>
 
       {/* Features Grid */}
       <section className="container mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Everything You Need for Smart Food Management
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            From freshness detection to recipe generation, our AI-powered tools help you make the most of your food
-          </p>
-        </div>
-
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+          Everything You Need
+          <span className="block text-emerald-400">For Smart Food Management</span>
+        </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature) => {
             const Icon = feature.icon;
             return (
-              <Card key={feature.id} className="group cursor-pointer transition-all duration-300 hover:shadow-elegant hover:-translate-y-1">
+              <Card
+                key={feature.id}
+                className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 hover:shadow-lg hover:border-emerald-500 transition"
+              >
                 <CardHeader>
-                  <div className="w-12 h-12 bg-gradient-fresh rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Icon className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 bg-emerald-500/20 rounded-lg flex items-center justify-center mb-4">
+                    <Icon className="w-6 h-6 text-emerald-400" />
                   </div>
-                  <CardTitle className="text-lg">{feature.title}</CardTitle>
-                  <CardDescription>{feature.description}</CardDescription>
+                  <CardTitle className="text-lg text-white">
+                    {feature.title}
+                  </CardTitle>
+                  <CardDescription className="text-gray-400">
+                    {feature.description}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Button 
-                    variant={feature.color as any} 
-                    className="w-full"
+                  <Button
+                    className="w-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold py-2 rounded-lg"
                     onClick={() => setActiveTab(feature.id)}
                   >
                     Try Now
@@ -107,26 +115,6 @@ const HomePage = ({ setActiveTab }: { setActiveTab: (tab: string) => void }) => 
               </Card>
             );
           })}
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="bg-muted/30 rounded-2xl py-12">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold text-primary mb-2">95%</div>
-              <div className="text-muted-foreground">Freshness Detection Accuracy</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-secondary mb-2">30%</div>
-              <div className="text-muted-foreground">Average Food Waste Reduction</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-accent mb-2">1000+</div>
-              <div className="text-muted-foreground">Recipe Combinations</div>
-            </div>
-          </div>
         </div>
       </section>
     </div>

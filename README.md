@@ -1,73 +1,67 @@
-# Welcome to your Lovable project
+# SmartFoodAssistant
 
-## Project info
+SmartFoodAssistant is a full-stack web app that helps users track food freshness, nutrition, and recipes. It integrates AI/ML models with a responsive frontend to reduce food waste, monitor nutritional intake, and suggest personalized recipes.
 
-**URL**: https://lovable.dev/projects/40c0c6c1-046b-43e1-80c2-b0ade5f83581
+---
 
-## How can I edit this code?
+## **Team & Features**
 
-There are several ways of editing your application.
+| Feature | Owner | Description |
+|---------|-------|-------------|
+| **Food Freshness Detection** | Utkarsh | Classifies food images as Fresh, Semi-Fresh, or Spoiled using CNN + Transfer Learning. Predictions are stored in the inventory database. |
+| **Inventory & Expiry Tracking** | Rima | Tracks items, freshness, and predicted shelf life. Sends push notifications before spoilage and prioritizes recipes for items nearing expiry. |
+| **AI-Based Calorie & Nutrition Detection** | Laraib | Identifies dishes from images and returns calories, macronutrients, and micronutrients using APIs like Edamam, Spoonacular, and USDA FoodData Central. |
+| **Recipe Generation & Recommendation** | Anirban | Generates GPT-based recipes based on inventory, diet preferences, and calorie goals. Provides step-by-step instructions and nutrition breakdown. |
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/40c0c6c1-046b-43e1-80c2-b0ade5f83581) and start prompting.
+## **Project Structure**
 
-Changes made via Lovable will be committed automatically to this repo.
+SmartFoodAssistant/
+│
+├── backend/
+│ ├── food_freshness/ # Utkarsh
+│ │ ├── model/ # CNN models + checkpoints
+│ │ ├── train.py
+│ │ └── predict.py
+│ │
+│ ├── inventory_tracking/ # Rima
+│ │ ├── db.py
+│ │ ├── expiry_checker.py
+│ │ └── notifications.py
+│ │
+│ ├── nutrition_detection/ # Laraib
+│ │ ├── api_integration.py
+│ │ ├── model.py
+│ │ └── predict.py
+│ │
+│ └── recipe_generation/ # Anirban
+│ ├── recipe_model.py
+│ └── generate.py
+│
+├── frontend/ # React/Next.js + Tailwind CSS
+│ ├── public/
+│ ├── src/
+│ │ ├── components/
+│ │ ├── pages/
+│ │ └── styles/
+│ └── package.json
+│
+├── database/ # SQLite or Supabase integration
+│ └── inventory.db
+│
+├── scripts/ # Data preprocessing or utility scripts
+├── requirements.txt # Python dependencies
+└── README.md
 
-**Use your preferred IDE**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## **Setup & Installation**
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/40c0c6c1-046b-43e1-80c2-b0ade5f83581) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+### **Backend**
+1. Create a virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate   # Linux/Mac
+venv\Scripts\activate      # Windows

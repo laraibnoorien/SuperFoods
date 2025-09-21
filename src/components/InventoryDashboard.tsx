@@ -1,4 +1,4 @@
-import { Calendar, Package, AlertTriangle, Trash2 } from "lucide-react";
+import { Calendar, Package, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,11 +13,11 @@ const InventoryDashboard = () => {
 
   const getStatusBadge = (status: string, daysLeft: number) => {
     if (status === "expired") {
-      return <Badge variant="destructive">Expired</Badge>;
+      return <Badge className="bg-red-500/20 text-red-400">Expired</Badge>;
     } else if (status === "expiring") {
-      return <Badge variant="secondary" className="bg-warning text-warning-foreground">Expires Soon</Badge>;
+      return <Badge className="bg-amber-500/20 text-amber-400">Expires Soon</Badge>;
     } else {
-      return <Badge variant="default" className="bg-primary/10 text-primary">Fresh</Badge>;
+      return <Badge className="bg-emerald-500/20 text-emerald-400">Fresh</Badge>;
     }
   };
 
@@ -29,80 +29,92 @@ const InventoryDashboard = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 bg-black min-h-screen text-gray-200 font-sans p-6">
+      {/* Header */}
       <div className="text-center">
-        <h2 className="text-3xl font-bold text-foreground mb-2">Food Inventory</h2>
-        <p className="text-muted-foreground">Track your food items, freshness, and expiry dates</p>
+        <h2 className="text-4xl font-extrabold tracking-tight mb-2 text-emerald-400">
+          Food Inventory
+        </h2>
+        <p className="text-gray-400">Track freshness and expiry dates with AI</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-primary">{stats.total}</div>
-            <div className="text-sm text-muted-foreground">Total Items</div>
+      {/* Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <Card className="bg-neutral-900 border border-neutral-800">
+          <CardContent className="p-6 text-center">
+            <div className="text-3xl font-bold text-emerald-400">{stats.total}</div>
+            <div className="text-sm text-gray-400">Total Items</div>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-primary">{stats.fresh}</div>
-            <div className="text-sm text-muted-foreground">Fresh</div>
+        <Card className="bg-neutral-900 border border-neutral-800">
+          <CardContent className="p-6 text-center">
+            <div className="text-3xl font-bold text-emerald-400">{stats.fresh}</div>
+            <div className="text-sm text-gray-400">Fresh</div>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-warning">{stats.expiring}</div>
-            <div className="text-sm text-muted-foreground">Expiring Soon</div>
+        <Card className="bg-neutral-900 border border-neutral-800">
+          <CardContent className="p-6 text-center">
+            <div className="text-3xl font-bold text-amber-400">{stats.expiring}</div>
+            <div className="text-sm text-gray-400">Expiring Soon</div>
           </CardContent>
         </Card>
-        <Card>
-          <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold text-destructive">{stats.expired}</div>
-            <div className="text-sm text-muted-foreground">Expired</div>
+        <Card className="bg-neutral-900 border border-neutral-800">
+          <CardContent className="p-6 text-center">
+            <div className="text-3xl font-bold text-red-400">{stats.expired}</div>
+            <div className="text-sm text-gray-400">Expired</div>
           </CardContent>
         </Card>
       </div>
 
-      <Card>
+      {/* Inventory List */}
+      <Card className="bg-neutral-900 border border-neutral-800">
         <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Package className="w-5 h-5" />
+          <CardTitle className="flex items-center space-x-2 text-white">
+            <Package className="w-5 h-5 text-emerald-400" />
             <span>Inventory Items</span>
           </CardTitle>
-          <CardDescription>Manage your food inventory and expiry dates</CardDescription>
+          <CardDescription className="text-gray-400">
+            Manage your food and avoid waste
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {inventoryItems.map((item) => (
-              <div key={item.id} className="flex items-center justify-between p-4 border border-border rounded-lg">
+              <div
+                key={item.id}
+                className="flex items-center justify-between p-4 bg-neutral-950 border border-neutral-800 rounded-lg"
+              >
                 <div className="flex-1">
-                  <div className="flex items-center space-x-3">
-                    <div>
-                      <h4 className="font-medium text-foreground">{item.name}</h4>
-                      <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                        <span>{item.category}</span>
-                        <span>•</span>
-                        <span>Qty: {item.quantity}</span>
-                      </div>
-                    </div>
+                  <h4 className="font-medium text-white">{item.name}</h4>
+                  <div className="flex items-center space-x-2 text-sm text-gray-400">
+                    <span>{item.category}</span>
+                    <span>•</span>
+                    <span>Qty: {item.quantity}</span>
                   </div>
                 </div>
-                
-                <div className="flex items-center space-x-3">
+
+                <div className="flex items-center space-x-4">
                   <div className="text-right text-sm">
-                    <div className="flex items-center space-x-1 text-muted-foreground">
-                      <Calendar className="w-4 h-4" />
+                    <div className="flex items-center space-x-1 text-gray-400">
+                      <Calendar className="w-4 h-4 text-emerald-400" />
                       <span>{item.expiryDate}</span>
                     </div>
-                    <div className="text-xs">
-                      {item.daysLeft > 0 ? `${item.daysLeft} days left` : 
-                       item.daysLeft === 0 ? 'Expires today' : 
-                       `${Math.abs(item.daysLeft)} days expired`}
+                    <div className="text-xs text-gray-500">
+                      {item.daysLeft > 0
+                        ? `${item.daysLeft} days left`
+                        : item.daysLeft === 0
+                        ? "Expires today"
+                        : `${Math.abs(item.daysLeft)} days expired`}
                     </div>
                   </div>
-                  
+
                   {getStatusBadge(item.status, item.daysLeft)}
-                  
-                  <Button variant="ghost" size="icon">
+
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-red-400 hover:bg-red-500/20"
+                  >
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
