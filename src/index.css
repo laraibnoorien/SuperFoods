@@ -2,39 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* SmartFoodAssistant Design System - Food-inspired colors and gradients
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 120 20% 98%;
+    --foreground: 140 15% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 140 15% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 140 15% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Fresh green primary for food freshness */
+    --primary: 140 65% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 140 70% 60%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Warm food orange for cooking/recipes */
+    --secondary: 25 85% 60%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 120 15% 95%;
+    --muted-foreground: 140 10% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Deep teal for nutrition data */
+    --accent: 180 60% 50%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Spoiled food warning */
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Semi-fresh warning */
+    --warning: 45 90% 60%;
+    --warning-foreground: 140 15% 15%;
+
+    --border: 120 20% 90%;
+    --input: 120 15% 95%;
+    --ring: 140 65% 45%;
+
+    /* Food-inspired gradients */
+    --gradient-fresh: linear-gradient(135deg, hsl(140, 65%, 45%), hsl(140, 70%, 60%));
+    --gradient-cooking: linear-gradient(135deg, hsl(25, 85%, 60%), hsl(35, 80%, 65%));
+    --gradient-nutrition: linear-gradient(135deg, hsl(180, 60%, 50%), hsl(200, 55%, 55%));
+    --gradient-hero: linear-gradient(135deg, hsl(120, 20%, 98%), hsl(140, 30%, 95%));
+
+    /* Elegant shadows */
+    --shadow-fresh: 0 10px 30px -10px hsl(140, 65%, 45% / 0.3);
+    --shadow-warm: 0 10px 30px -10px hsl(25, 85%, 60% / 0.25);
+    --shadow-elegant: 0 4px 20px -5px hsl(140, 15%, 15% / 0.1);
 
     --radius: 0.5rem;
 
