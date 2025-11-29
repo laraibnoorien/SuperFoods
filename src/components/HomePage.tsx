@@ -52,10 +52,10 @@ const HomePage = ({ setActiveTab }: { setActiveTab: (tab: string) => void }) => 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 className="bg-emerald-500 hover:bg-emerald-400 text-black font-semibold px-6 py-3 rounded-lg"
-                onClick={() => setActiveTab("scan")}
+                onClick={() => setActiveTab("nutrition")}
               >
                 <Camera className="w-5 h-5 mr-2" />
-                Start Scanning
+                Count Calories
               </Button>
               <Button
                 variant="outline"

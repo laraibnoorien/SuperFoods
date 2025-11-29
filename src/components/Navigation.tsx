@@ -10,9 +10,9 @@ const Navigation = ({
 }) => {
   const navItems = [
     { id: "home", icon: Home, label: "Home" },
+    { id: "nutrition", icon: BarChart3, label: "Nutrition" },
     { id: "scan", icon: Camera, label: "Scan Food" },
     { id: "inventory", icon: Package, label: "Inventory" },
-    { id: "nutrition", icon: BarChart3, label: "Nutrition" },
     { id: "recipes", icon: Utensils, label: "Recipes" },
   ];
 
