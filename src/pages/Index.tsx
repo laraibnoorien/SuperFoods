@@ -13,19 +13,19 @@ import RecipeGenerator from "@/components/RecipeGenerator";
 const queryClient = new QueryClient();
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState('home');
+  const [activeTab, setActiveTab] = useState("home");
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'home':
+      case "home":
         return <HomePage setActiveTab={setActiveTab} />;
-      case 'scan':
+      case "scan":
         return <FreshnessScan />;
-      case 'inventory':
+      case "inventory":
         return <InventoryDashboard />;
-      case 'nutrition':
+      case "nutrition":
         return <NutritionAnalysis />;
-      case 'recipes':
+      case "recipes":
         return <RecipeGenerator />;
       default:
         return <HomePage setActiveTab={setActiveTab} />;
@@ -35,12 +35,17 @@ const Index = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen w-screen bg-gradient-to-b from-emerald-600 via-emerald-700 to-green-800 overflow-hidden">
+          
+          {/* Navigation Bar */}
           <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
-          <main className="container mx-auto px-6 py-8">
+          
+          {/* Full-screen content area */}
+          <main className="w-full min-h-screen pt--1">
             {renderContent()}
           </main>
         </div>
+
         <Toaster />
         <Sonner />
       </TooltipProvider>

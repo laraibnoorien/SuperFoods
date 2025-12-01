@@ -1,58 +1,84 @@
 # llm_client.py
+
 import json
+from typing import List, Dict, Any
+import requests
 import os
-from groq import Groq
-from config import LLM_MODEL, LLM_MAX_TOKENS
+from datetime import datetime
+
 from diet_prompt import build_prompt
-import sys
+from config import GROQ_API_KEY, GROQ_API_BASE, LLM_MODEL, LLM_MAX_TOKENS
 
-api=""
-client = Groq(api_key=api)
+headers = {
+    "Authorization": f"Bearer {GROQ_API_KEY}",
+    "Content-Type": "application/json"
+}
 
-def call_llm(food_items, portion_size, conditions):
-    prompt = build_prompt(food_items, portion_size, conditions)
+LOG_DIR = "logs"
+os.makedirs(LOG_DIR, exist_ok=True)
 
-    resp = client.chat.completions.create(
-        model=LLM_MODEL,
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "You must respond ONLY with valid JSON. "
-                    "No comments. No trailing commas. No explanations."
-                )
-            },
-            {"role": "user", "content": prompt}
-        ],
-        temperature=0.1,
-        top_p=1,
-        max_completion_tokens=LLM_MAX_TOKENS,
-        response_format={"type": "json_object"},  # << KEY FIX 🔥
-        stream=False
-    )
 
-    content = resp.choices[0].message.content
+def save_raw_response(raw_text: str, label: str = "raw"):
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = os.path.join(LOG_DIR, f"llm_response_{label}_{timestamp}.json")
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write(raw_text)
+    print(f"📁 Raw LLM response saved -> {filename}")
+
+
+def call_llm(
+    food_labels: List[str],
+    portion_size: float,
+    conditions: List[str],
+    nutrition: Dict[str, Any]
+) -> Dict[str, Any]:
+
+    prompt = build_prompt(food_labels, portion_size, conditions, nutrition)
+
+    payload = {
+        "model": LLM_MODEL,
+        "messages": [{"role": "user", "content": prompt}],
+        "max_tokens": LLM_MAX_TOKENS,
+        "temperature": 0.2,
+    }
 
     try:
-        return json.loads(content)
-    except json.JSONDecodeError:
-        # attempt auto-fix by closing last brace
-        if not content.endswith("}"):
-            content = content.rsplit("}", 1)[0] + "}"
-            try:
-                return json.loads(content)
-            except Exception:
-                pass
+        response = requests.post(
+            f"{GROQ_API_BASE}/chat/completions",
+            json=payload,
+            headers=headers,
+            timeout=30,
+        )
+        response.raise_for_status()
+        response_text = response.json()["choices"][0]["message"]["content"]
 
-        raise RuntimeError(f"Invalid JSON from LLM:\n{content}")
+        # save raw JSON text for debugging
+        save_raw_response(response_text, label="success")
+
+    except Exception as e:
+        print("🔥 Groq API Error:", e)
+        save_raw_response(str(e), label="error")
+        return fallback_response()
+
+    # try parsing JSON
+    try:
+        parsed = json.loads(response_text)
+        if "diet_recommendations" not in parsed:
+            raise ValueError("Missing diet_recommendations")
+        return parsed
+
+    except Exception as e:
+        print("⚠️ Invalid JSON from LLM:", e)
+        save_raw_response(response_text, label="invalid_json")
+        return fallback_response()
 
 
-if __name__ == "__main__":
-    # Quick test to confirm JSON works
-    test = client.chat.completions.create(
-        model=LLM_MODEL,
-        messages=[{"role": "user", "content": '{"ping": "test"}'}],
-        response_format={"type": "json_object"},
-        stream=False
-    )
-    print(test.choices[0].message.content)
+def fallback_response() -> Dict[str, Any]:
+    return {
+        "diet_recommendations": {
+            "add": ["Include vegetables for fiber"],
+            "reduce": ["Reduce fried/oily items"],
+            "pairings": ["Salad or yogurt pairs well"],
+            "overall_comment": "Fallback: LLM unavailable.",
+        }
+    }

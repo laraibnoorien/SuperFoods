@@ -1,58 +1,48 @@
 # diet_prompt.py
 
-from typing import List
+from typing import List, Dict, Any
 
 
 def build_prompt(food_items: List[str],
                  portion_size: float,
-                 conditions: List[str]) -> str:
-    """
-    Build a robust prompt to get structured JSON back.
-    """
+                 conditions: List[str],
+                 nutrition: Dict[str, Any]) -> str:
 
     foods_str = ", ".join(food_items) if food_items else "unknown"
     conditions_str = ", ".join(conditions) if conditions else "none"
 
-    # We request strict JSON output.
-    prompt = f"""
-You are a clinical nutritionist.
+    cal = nutrition.get("estimated_calories", 0)
+    macros = nutrition.get("macros", {})
+    micros = nutrition.get("micronutrients", {})
 
-User has eaten a meal detected as: [{foods_str}].
-Estimated portion size multiplier: {portion_size} (1.0 means standard portion).
+    return f"""
+You are a clinical nutritionist AI. Respond with ONLY pure JSON. 
+Do NOT include markdown, explanations, comments, or line breaks inside strings.
+If unsure, give your best medically safe advice.
 
-User conditions (if any): [{conditions_str}]
-Possible flags include: diabetic, high_bp, sick, weight_loss, weight_gain, etc.
+Meal: [{foods_str}]
+Portion multiplier: {portion_size}
 
-TASKS:
-1. Estimate total calories for this meal.
-2. Estimate macronutrients: protein (g), carbs (g), fat (g).
-3. Briefly describe key nutrients (e.g. fiber, sugar, sodium, vitamins) if relevant.
-4. Decide if this meal is appropriate for the user given their conditions.
-5. Suggest what should be added or reduced to make this a balanced meal for this specific user.
+Nutrition (already calculated):
+Calories: {cal}
+Protein: {macros.get("protein_g", 0)}g
+Carbs: {macros.get("carbs_g", 0)}g
+Fat: {macros.get("fat_g", 0)}g
+Iron: {micros.get("iron_mg", 0)}mg
+Calcium: {micros.get("calcium_mg", 0)}mg
+Magnesium: {micros.get("magnesium_mg", 0)}mg
+Potassium: {micros.get("potassium_mg", 0)}mg
 
-Return output as **valid JSON only**, no extra text, exactly with this structure:
+User conditions: [{conditions_str}]
+
+Return EXACT JSON structure below:
 
 {{
-  "detected_food": {food_items},
-  "estimated_calories": 0,
-  "macros": {{
-    "protein_g": 0,
-    "carbs_g": 0,
-    "fat_g": 0
-  }},
-  "notes": {{
-    "nutritional_highlights": "",
-    "risks_for_conditions": ""
-  }},
-  "is_meal_appropriate": true,
   "diet_recommendations": {{
-    "add": [],
-    "reduce": [],
-    "overall_comment": ""
+    "add": ["short suggestions, no commas inside strings"],
+    "reduce": ["short suggestions"],
+    "pairings": ["specific food combos"],
+    "overall_comment": "one concise sentence only"
   }}
 }}
-
-Use realistic estimates based on common values for these foods.
-Scale quantities based on portion_size.
 """
-    return prompt

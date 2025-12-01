@@ -6,110 +6,124 @@ import heroImage from "@/assets/hero-food.jpg";
 const HomePage = ({ setActiveTab }: { setActiveTab: (tab: string) => void }) => {
   const features = [
     {
+      id: "nutrition",
+      icon: BarChart3,
+      title: "Nutrition Scan",
+      description: "Snap a photo — instantly know calories & health score",
+    },
+    {
       id: "scan",
       icon: Camera,
-      title: "Food Freshness Scanner",
-      description: "Detect if your food is fresh, semi-fresh, or spoiled",
-      color: "emerald",
+      title: "Freshness Check",
+      description: "Detect if your food is safe, stale or spoiled",
     },
     {
       id: "inventory",
       icon: Package,
-      title: "Smart Inventory Tracking",
-      description: "Track expiry dates and get notifications",
-      color: "emerald",
-    },
-    {
-      id: "nutrition",
-      icon: BarChart3,
-      title: "Nutrition Analysis",
-      description: "Analyze dishes for calories, macros & micros",
-      color: "emerald",
+      title: "Smart Inventory",
+      description: "Track what you have & get expiry reminders",
     },
     {
       id: "recipes",
       icon: ChefHat,
-      title: "AI Recipe Generator",
-      description: "Personalized recipes from your inventory",
-      color: "emerald",
+      title: "AI Meal Genius",
+      description: "Get recipes from what’s in your kitchen",
     },
   ];
 
   return (
-    <div className="space-y-16 bg-black text-gray-200 font-sans">
+    <div className="relative bg-black text-gray-100 overflow-hidden font-sans">
+      
+      {/* Subtle gradient glow behind UI */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.15),_transparent_70%)] pointer-events-none" />
+
       {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-2xl">
-        <div className="container mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8">
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-tight">
-              Smart Food{" "}
-              <span className="block text-emerald-400">Assistant</span>
-            </h1>
-            <p className="text-lg md:text-xl text-gray-400 leading-relaxed">
-              Reduce waste, track freshness, analyze nutrition & generate
-              recipes with AI-powered food management.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button
-                className="bg-emerald-500 hover:bg-emerald-400 text-black font-semibold px-6 py-3 rounded-lg"
-                onClick={() => setActiveTab("nutrition")}
-              >
-                <Camera className="w-5 h-5 mr-2" />
-                Count Calories
-              </Button>
-              <Button
-                variant="outline"
-                className="border border-emerald-400 text-emerald-400 hover:bg-emerald-500 hover:text-black font-semibold px-6 py-3 rounded-lg"
-                onClick={() => setActiveTab("inventory")}
-              >
-                View Inventory
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-            </div>
+      <section className="container mx-auto px-6 py-32 grid md:grid-cols-2 gap-10 items-center">
+        
+        {/* Left Column */}
+        <div className="space-y-10 animate-fade-in">
+          <h1 className="font-serif text-6xl md:text-7xl tracking-tight leading-[1.05]">
+            A Smarter Way to
+            <span className="block bg-gradient-to-r from-emerald-400 to-green-200 text-transparent bg-clip-text italic">
+              Eat & Live Better
+            </span>
+          </h1>
+
+          <p className="text-lg text-gray-400 leading-relaxed max-w-lg font-light">
+            FoodBoss helps you make mindful food decisions — improve your nutrition,
+            reduce waste, and build healthier habits with AI by your side.
+          </p>
+
+          <div className="flex flex-wrap gap-5">
+            <Button
+              className="bg-gradient-to-r from-emerald-500 to-green-300 text-black font-bold px-8 py-4 rounded-2xl shadow-lg hover:scale-105 transition"
+              onClick={() => setActiveTab("nutrition")}
+            >
+              <Camera className="w-5 h-5 mr-2" />
+              Start Scanning
+            </Button>
+
+            <Button
+              variant="outline"
+              className="border border-emerald-400 text-emerald-300 hover:bg-emerald-500 hover:text-black px-7 py-4 rounded-2xl backdrop-blur-sm font-semibold transition"
+              onClick={() => setActiveTab("inventory")}
+            >
+              Explore Kitchen
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
           </div>
-          <div>
-            <img
-              src={heroImage}
-              alt="Fresh fruits and vegetables"
-              className="rounded-xl shadow-lg w-full h-auto"
-              loading="lazy"
-            />
-          </div>
+
+          <p className="text-sm text-gray-500 italic">
+            Empowering better decisions. One plate at a time.
+          </p>
         </div>
+
+        {/* Hero Image */}
+        <div className="relative flex justify-center items-start overflow-visible">
+          <img
+            src={heroImage}
+            alt="Healthy Bowl"
+            className="h-[100vh] w-auto object-cover rounded-2xl translate-x-24 -translate-y-32"
+          />
+        </div>
+
+
       </section>
 
-      {/* Features Grid */}
-      <section className="container mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-          Everything You Need
-          <span className="block text-emerald-400">For Smart Food Management</span>
+      {/* Feature Highlights */}
+      <section className="container mx-auto px-6 pb-32">
+        <h2 className="text-center font-serif text-5xl tracking-tight mb-20 leading-[1.1]">
+          Powered by <span className="text-emerald-400 italic">Intelligent Food Insights</span>
         </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature) => {
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          {features.map((feature, i) => {
             const Icon = feature.icon;
             return (
               <Card
                 key={feature.id}
-                className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 hover:shadow-lg hover:border-emerald-500 transition"
+                className="bg-neutral-900/50 backdrop-blur-xl border border-neutral-800 rounded-2xl p-8 shadow-xl
+                hover:border-emerald-500 hover:-translate-y-2 transition duration-300"
+                style={{ animationDelay: `${i * 120}ms`, animation: "fade-in .6s forwards" }}
               >
                 <CardHeader>
-                  <div className="w-12 h-12 bg-emerald-500/20 rounded-lg flex items-center justify-center mb-4">
-                    <Icon className="w-6 h-6 text-emerald-400" />
+                  <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center mb-4">
+                    <Icon className="w-7 h-7 text-emerald-400" />
                   </div>
-                  <CardTitle className="text-lg text-white">
+                  <CardTitle className="text-xl font-medium">
                     {feature.title}
                   </CardTitle>
-                  <CardDescription className="text-gray-400">
+                  <CardDescription className="text-gray-400 text-sm mt-2">
                     {feature.description}
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
+
+                <CardContent className="pt-5">
                   <Button
-                    className="w-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold py-2 rounded-lg"
+                    className="w-full bg-neutral-800 hover:bg-emerald-500 hover:text-black font-medium rounded-xl py-2"
                     onClick={() => setActiveTab(feature.id)}
                   >
                     Try Now
-                    <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </CardContent>
               </Card>
