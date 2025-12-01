@@ -1,5 +1,5 @@
 # main.py
-
+import uvicorn
 import cv2, numpy as np
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
@@ -52,10 +52,12 @@ async def analyze(
         return {"detected_food": [], "error": "No food detected"}
 
     nutrition = analyze_nutrition(labels, portion, cond_list)
+    nutrition["detected_food"] = labels
+
     score = compute_health_score(nutrition)
     missing = missing_nutrients(nutrition)
-
     diet = analyze_diet(labels, nutrition, cond_list)
+   
 
     annotated_img = None
     if boxes:
@@ -75,3 +77,7 @@ async def analyze(
         "missing_nutrients": missing,
         "image_with_boxes": annotated_img,
     }
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
