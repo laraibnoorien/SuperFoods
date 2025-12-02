@@ -32,7 +32,10 @@ const FreshnessScan = () => {
   };
 
   return (
+    
     <div className="space-y-8 min-h-screen bg-black p-6">
+       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.15),_transparent_70%)] pointer-events-none" />
+
       {/* Header */}
       <div className="text-center">
         <h2 className="text-3xl md:text-4xl font-extrabold text-emerald-400 mb-2">

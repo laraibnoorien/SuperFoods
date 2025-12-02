@@ -140,6 +140,7 @@ const NutritionAnalysis = () => {
 
   return (
     <div className="min-h-screen bg-black text-gray-100">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.15),_transparent_70%)] pointer-events-none" />
 
       {loading && (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/60 backdrop-blur-md">

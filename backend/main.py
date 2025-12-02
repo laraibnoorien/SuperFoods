@@ -1,15 +1,29 @@
 # main.py
 import uvicorn
 import cv2, numpy as np
-from fastapi import FastAPI, UploadFile, File, Form
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
 from PIL import Image
 
+# Nutrition + Vision imports
 from multi_model_detection import detect_best_conf
 from vision import annotate, encode_base64
 from analysis_pipeline import (
     analyze_nutrition, analyze_diet, compute_health_score, missing_nutrients
+)
+
+# Recipe imports
+from recipe_models import (
+    RecipeGenerateRequest,
+    RecipeUpdateRequest,
+    RecipeReplaceRequest,
+    RecipeSaveRequest,
+)
+from recipe_pipeline import (
+    generate_recipe,
+    adjust_recipe,
+    suggest_replacement,
 )
 
 app = FastAPI()
@@ -23,6 +37,9 @@ app.add_middleware(
 )
 
 
+# =========================
+# NUTRITION ANALYSIS ROUTE
+# =========================
 @app.post("/analyze")
 async def analyze(
     file: Optional[UploadFile] = File(None),
@@ -40,13 +57,12 @@ async def analyze(
     if file:
         img_arr = np.frombuffer(await file.read(), np.uint8)
         img = cv2.imdecode(img_arr, cv2.IMREAD_COLOR)
-
         labels, confs, boxes = detect_best_conf(img, model_type)
 
     if description.strip():
         labels.extend([x.strip().lower() for x in description.split(",")])
 
-    labels = list(set(labels))  # unique
+    labels = list(set(labels))
 
     if not labels:
         return {"detected_food": [], "error": "No food detected"}
@@ -57,7 +73,6 @@ async def analyze(
     score = compute_health_score(nutrition)
     missing = missing_nutrients(nutrition)
     diet = analyze_diet(labels, nutrition, cond_list)
-   
 
     annotated_img = None
     if boxes:
@@ -79,5 +94,65 @@ async def analyze(
     }
 
 
+# =========================
+# RECIPE GENERATION ROUTES
+# =========================
+@app.post("/api/recipe/generate")
+def api_generate_recipe(req: RecipeGenerateRequest):
+    try:
+        print("REQ:", req.dict())
+        return generate_recipe(req.dish, req.servings, req.preferences)
+    except Exception as e:
+        print("BACKEND ERROR:", e)  # <-- ADD THIS
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/recipe/update")
+def api_update_recipe(req: RecipeUpdateRequest):
+    try:
+        recipe_dict = req.recipe.dict()
+        excluded_items = req.excluded_items or []
+        added_items = [i.dict() for i in req.added_items] if req.added_items else []
+        preferences = req.preferences or []
+
+        updated_recipe = adjust_recipe(
+            recipe_dict,
+            excluded_items,
+            added_items,
+            preferences,
+        )
+
+        # ensure nutrition key exists even if empty
+        updated_recipe["nutrition"] = updated_recipe.get("nutrition", {})
+
+        return updated_recipe
+
+    except Exception as e:
+        print("BACKEND ERROR:", e)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
+@app.post("/api/recipe/replace")
+def api_replace_ingredient(req: RecipeReplaceRequest):
+    try:
+        return suggest_replacement(
+            req.ingredient_name,
+            req.recipe.dict(),
+            req.preferences
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/api/recipe/save")
+def api_save_recipe(req: RecipeSaveRequest):
+    # TODO: Add database save later
+    return {"status": "saved"}
+
+
+# =========================
+# RUN SERVER
+# =========================
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

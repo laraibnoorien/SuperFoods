@@ -23,5 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 .env
-models/laraib/config.py
+backend/config.py
 

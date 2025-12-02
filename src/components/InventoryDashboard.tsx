@@ -30,6 +30,8 @@ const InventoryDashboard = () => {
 
   return (
     <div className="space-y-8 bg-black min-h-screen text-gray-200 font-sans p-6">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.15),_transparent_70%)] pointer-events-none" />
+
       {/* Header */}
       <div className="text-center">
         <h2 className="text-4xl font-extrabold tracking-tight mb-2 text-emerald-400">
